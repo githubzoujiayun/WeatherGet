@@ -1,6 +1,9 @@
 package core;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,11 +17,11 @@ import org.apache.http.impl.client.HttpClients;
 public class DownloadXML {
 	/**
 	 * 获取xml文件
-	 * @param weburl  输入的网址
+	 * @param weburl  输入的xml文件地址
 	 * */
-	public void DownXML(String weburl) {
+	StringBuffer buffer;
+	public DownloadXML(String weburl) {
 		HttpClient client = HttpClients.createDefault();
-		;
 		HttpGet get = new HttpGet(weburl);
 		get.setHeader("Content-Type", "application/xml");
 		HttpResponse response;
@@ -29,20 +32,31 @@ public class DownloadXML {
 				InputStream is = entity.getContent();
 				BufferedReader in = new BufferedReader(
 						new InputStreamReader(is));
-				StringBuffer buffer = new StringBuffer();
+				//获取文本
+				buffer = new StringBuffer();
 				String line = "";
 				while ((line = in.readLine()) != null)
 					buffer.append(line + "\n");
 				System.out.println(buffer);
+				writeXMLFile();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
-
-	public static void main(String[] args) {
-		new DownloadXML().DownXML("http://wthrcdn.etouch.cn/WeatherApi?citykey=101010100");
-		;
+	/**写获取的xml到文件
+	 * @throws IOException */
+	private void writeXMLFile() throws IOException{
+//		File file=new File("temp.xml");
+//		if(!file.exists()){
+//			
+//		}
+		BufferedWriter out=new BufferedWriter(new FileWriter(new File("temp.xml")));
+		out.write(buffer.toString());
+		out.close();
+		
+		
+		
 	}
 }
