@@ -48,10 +48,6 @@ public class DownloadXML {
 	/**写获取的xml到文件
 	 * @throws IOException */
 	private void writeXMLFile() throws IOException{
-//		File file=new File("temp.xml");
-//		if(!file.exists()){
-//			
-//		}
 		BufferedWriter out=new BufferedWriter(new FileWriter(new File("temp.xml")));
 		out.write(buffer.toString());
 		out.close();
